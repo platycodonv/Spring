@@ -8,8 +8,30 @@ import hello.core.member.MemoryMemberRepository;
 
 public class OrderServiceImpl implements OrderService{
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+
+
+    /*
+    1. 할인 금액 정책의 변경이 -> 할인 정책의 클라이언트인 OderServiceImpl의 코드가 변경이 일어난다.(OCP 위반)
+    인터페이스(추상) 뿐 아니라 구현 클래스에 의존, (DIP 위반)
     private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+    private final DiscountPolicy discountPolicy = new RateDisCountPolicy();
+    */
+
+    /*
+    2. 추상화인 interface에만 의존하도록 변경 -> NPE
+    구현체가 없다 !
+    해결방안 : 누군가 클라이언트인 DiscountPolicy의 구현 객체를 대신 생성하고 "주입" 해주어야 한다.
+    private DiscountPolicy discountPolicy;
+    */
+
+    /*3. 생성자 주입 */
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+    public OrderServiceImpl(MemoryMemberRepository memoryMemberRepository, FixDiscountPolicy fixDiscountPolicy) {
+        this.memberRepository = memoryMemberRepository;
+        this.discountPolicy = fixDiscountPolicy;
+    }
+
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
