@@ -27,9 +27,11 @@ public class OrderServiceImpl implements OrderService{
     /*3. 생성자 주입 */
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
-    public OrderServiceImpl(MemoryMemberRepository memoryMemberRepository, FixDiscountPolicy fixDiscountPolicy) {
-        this.memberRepository = memoryMemberRepository;
-        this.discountPolicy = fixDiscountPolicy;
+
+    /* #2 -> #3 생성자 파라미터 오기입 수정 */
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
     }
 
 
